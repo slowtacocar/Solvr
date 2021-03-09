@@ -18,14 +18,14 @@
 					"source" : "."
 				},
 				{
-					"build" : "solvr",
+					"build" : "Solvr",
 					"minimumCMakeVersion" : 
 					{
 						"string" : "3.8"
 					},
 					"parentIndex" : 0,
 					"projectIndex" : 0,
-					"source" : "solvr",
+					"source" : "Solvr",
 					"targetIndexes" : 
 					[
 						0
@@ -41,7 +41,7 @@
 						0,
 						1
 					],
-					"name" : "solvr",
+					"name" : "Solvr",
 					"targetIndexes" : 
 					[
 						0
@@ -52,9 +52,9 @@
 			[
 				{
 					"directoryIndex" : 1,
-					"id" : "solvr::@664ea515514af5289023",
-					"jsonFile" : "target-solvr-Debug-a1ccbbd542ee99eb3656.json",
-					"name" : "solvr",
+					"id" : "Solvr::@9d6dfcf3829f567f701e",
+					"jsonFile" : "target-Solvr-Debug-e76de9ddbff8652fc3ef.json",
+					"name" : "Solvr",
 					"projectIndex" : 0
 				}
 			]
@@ -63,8 +63,8 @@
 	"kind" : "codemodel",
 	"paths" : 
 	{
-		"build" : "C:/Users/bobby/source/repos/solvr/out/build/x64-Debug (default)",
-		"source" : "C:/Users/bobby/source/repos/solvr"
+		"build" : "C:/Users/slowt/source/repos/slowtacocar/Solvr/out/build/x64-Debug (default)",
+		"source" : "C:/Users/slowt/source/repos/slowtacocar/Solvr"
 	},
 	"version" : 
 	{

@@ -1,8 +1,8 @@
-# Install script for directory: C:/Users/bobby/source/repos/solvr
+# Install script for directory: C:/Users/slowt/source/repos/slowtacocar/Solvr
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
-  set(CMAKE_INSTALL_PREFIX "C:/Users/bobby/source/repos/solvr/out/install/x64-Debug (default)")
+  set(CMAKE_INSTALL_PREFIX "C:/Users/slowt/Source/Repos/slowtacocar/Solvr/out/install/x64-Debug (default)")
 endif()
 string(REGEX REPLACE "/$" "" CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 
@@ -34,7 +34,7 @@ endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for each subdirectory.
-  include("C:/Users/bobby/source/repos/solvr/out/build/x64-Debug (default)/solvr/cmake_install.cmake")
+  include("C:/Users/slowt/source/repos/slowtacocar/Solvr/out/build/x64-Debug (default)/Solvr/cmake_install.cmake")
 
 endif()
 
@@ -46,5 +46,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "C:/Users/bobby/source/repos/solvr/out/build/x64-Debug (default)/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "C:/Users/slowt/source/repos/slowtacocar/Solvr/out/build/x64-Debug (default)/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

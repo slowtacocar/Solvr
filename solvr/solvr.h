@@ -1,8 +1,11 @@
-﻿// solvr.h : Include file for standard system include files,
-// or project specific include files.
+﻿#pragma once
 
-#pragma once
+#include "Addition.h"
+#include "Subtraction.h"
+#include "Multiplication.h"
+#include "Division.h"
+#include "Exponentiation.h"
+#include "Variable.h"
+#include "BadExpression.h"
 
 #include <iostream>
-
-// TODO: Reference additional headers your program requires here.

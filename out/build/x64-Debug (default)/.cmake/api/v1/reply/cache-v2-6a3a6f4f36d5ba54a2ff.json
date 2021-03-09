@@ -35,7 +35,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "c:/Users/bobby/source/repos/solvr/out/build/x64-Debug (default)"
+			"value" : "c:/Users/slowt/source/repos/slowtacocar/Solvr/out/build/x64-Debug (default)"
 		},
 		{
 			"name" : "CMAKE_CACHE_MAJOR_VERSION",
@@ -511,7 +511,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "C:/Users/bobby/source/repos/solvr"
+			"value" : "C:/Users/slowt/source/repos/slowtacocar/Solvr"
 		},
 		{
 			"name" : "CMAKE_INSTALL_PREFIX",
@@ -523,7 +523,7 @@
 				}
 			],
 			"type" : "PATH",
-			"value" : "C:/Users/bobby/source/repos/solvr/out/install/x64-Debug (default)"
+			"value" : "C:/Users/slowt/Source/Repos/slowtacocar/Solvr/out/install/x64-Debug (default)"
 		},
 		{
 			"name" : "CMAKE_LINKER",
@@ -707,7 +707,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "solvr"
+			"value" : "Solvr"
 		},
 		{
 			"name" : "CMAKE_RC_COMPILER",
@@ -1038,7 +1038,7 @@
 			"value" : "FALSE"
 		},
 		{
-			"name" : "solvr_BINARY_DIR",
+			"name" : "Solvr_BINARY_DIR",
 			"properties" : 
 			[
 				{
@@ -1047,10 +1047,10 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "C:/Users/bobby/source/repos/solvr/out/build/x64-Debug (default)"
+			"value" : "C:/Users/slowt/source/repos/slowtacocar/Solvr/out/build/x64-Debug (default)"
 		},
 		{
-			"name" : "solvr_SOURCE_DIR",
+			"name" : "Solvr_SOURCE_DIR",
 			"properties" : 
 			[
 				{
@@ -1059,7 +1059,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "C:/Users/bobby/source/repos/solvr"
+			"value" : "C:/Users/slowt/source/repos/slowtacocar/Solvr"
 		}
 	],
 	"kind" : "cache",

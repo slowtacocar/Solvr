@@ -1,3 +1,13 @@
 # ninja log v5
-1	561	636748570	solvr/CMakeFiles/solvr.dir/solvr.cpp.obj	880996753e3dcd5b
-561	881	636748571	solvr/solvr.exe	66549f3ae1fd433d
+23	156	636965293	Solvr/CMakeFiles/Solvr.dir/BadExpression.cpp.obj	b2a1ed936a2a8308
+8	299	636965294	Solvr/CMakeFiles/Solvr.dir/Constant.cpp.obj	64835f2514f4b952
+11	306	636965294	Solvr/CMakeFiles/Solvr.dir/Variable.cpp.obj	a6d59c0f8dd0386d
+1	306	636965294	Solvr/CMakeFiles/Solvr.dir/Operation.cpp.obj	ef085f67663e904a
+6	307	636965294	Solvr/CMakeFiles/Solvr.dir/Expression.cpp.obj	984285179a201fc5
+3	321	636965294	Solvr/CMakeFiles/Solvr.dir/Addition.cpp.obj	b7e7b53bcdfd9b64
+13	464	636965294	Solvr/CMakeFiles/Solvr.dir/Division.cpp.obj	905eec069933a787
+18	469	636965294	Solvr/CMakeFiles/Solvr.dir/Multiplication.cpp.obj	40550de1716809cf
+5	471	636965294	Solvr/CMakeFiles/Solvr.dir/Solvr.cpp.obj	78ae727d196673ac
+16	473	636965294	Solvr/CMakeFiles/Solvr.dir/Subtraction.cpp.obj	895650b23c683d87
+21	479	636965294	Solvr/CMakeFiles/Solvr.dir/Exponentiation.cpp.obj	290bfe4e52627db3
+479	696	636965294	Solvr/Solvr.exe	2517cd3e20ee09b8

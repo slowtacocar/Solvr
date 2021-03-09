@@ -669,14 +669,14 @@
 			"path" : "out/build/x64-Debug (default)/CMakeFiles/3.18.20081302-MSVC_2/CMakeCXXCompiler.cmake"
 		},
 		{
-			"path" : "solvr/CMakeLists.txt"
+			"path" : "Solvr/CMakeLists.txt"
 		}
 	],
 	"kind" : "cmakeFiles",
 	"paths" : 
 	{
-		"build" : "C:/Users/bobby/source/repos/solvr/out/build/x64-Debug (default)",
-		"source" : "C:/Users/bobby/source/repos/solvr"
+		"build" : "C:/Users/slowt/source/repos/slowtacocar/Solvr/out/build/x64-Debug (default)",
+		"source" : "C:/Users/slowt/source/repos/slowtacocar/Solvr"
 	},
 	"version" : 
 	{
