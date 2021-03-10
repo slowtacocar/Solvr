@@ -13,4 +13,7 @@ public:
 	Variable(char letter);
 	std::string toString() override;
 	char getLetter();
+	char symbol() override;
+	Constant* getConstant() override;
+	Expression* getNonConstant() override;
 };

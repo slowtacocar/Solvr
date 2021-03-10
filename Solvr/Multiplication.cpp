@@ -4,12 +4,30 @@ Expression* Multiplication::simplify()
 {
 	Expression* simplified1 = getOperand1()->simplify();
 	Expression* simplified2 = getOperand2()->simplify();
-	if (Constant* constant1 = dynamic_cast<Constant*>(simplified1))
+	if (simplified1->symbol() == '0' && simplified2->symbol() == '0')
 	{
-		if (Constant* constant2 = dynamic_cast<Constant*>(simplified2))
-		{
-			return new Constant(constant1->getValue() * constant2->getValue());
-		}
+		return new Constant(simplified1->getConstant()->getValue() * simplified2->getConstant()->getValue());
+	}
+	if (simplified1->symbol() == '0' && simplified2->symbol() == '*' && simplified2->getConstant())
+	{
+		Constant* constant = new Constant(simplified1->getConstant()->getValue() * simplified2->getConstant()->getValue());
+		if (constant->getValue() == 0) return new Constant();
+		if (constant->getValue() != 1) return new Multiplication(constant, simplified2->getNonConstant());
+		return simplified2->getNonConstant();
+	}
+	if (simplified1->symbol() == '*' && simplified1->getConstant() && simplified2->symbol() == '0')
+	{
+		Constant* constant = new Constant(simplified1->getConstant()->getValue() * simplified2->getConstant()->getValue());
+		if (constant->getValue() == 0) return new Constant();
+		if (constant->getValue() != 1) return new Multiplication(constant, simplified1->getNonConstant());
+		return simplified1->getNonConstant();
+	}
+	if (simplified1->symbol() == '+' && simplified1->getConstant() && simplified2->symbol() == '+' && simplified2->getConstant())
+	{
+		Constant* constant = new Constant(simplified1->getConstant()->getValue() * simplified2->getConstant()->getValue());
+		if (constant->getValue() == 0) return new Constant();
+		if (constant->getValue() != 1) return new Multiplication(constant, Multiplication(simplified1->getNonConstant(), simplified2->getNonConstant()).simplify());
+		return Multiplication(simplified1->getNonConstant(), simplified2->getNonConstant()).simplify();
 	}
 	return new Multiplication(simplified1, simplified2);
 }
@@ -17,22 +35,15 @@ Expression* Multiplication::simplify()
 std::string Multiplication::toString()
 {
 	std::ostringstream os;
-	if (dynamic_cast<Addition*>(getOperand1()) || dynamic_cast<Subtraction*>(getOperand1()))
-	{
-		os << "(" << getOperand1()->toString() << ")";
-	}
-	else
-	{
-		os << getOperand1()->toString();
-	}
+	if (getOperand1()->symbol() == '+') os << "(" << getOperand1()->toString() << ")";
+	else os << getOperand1()->toString();
 	os << "*";
-	if (dynamic_cast<Addition*>(getOperand2()) || dynamic_cast<Subtraction*>(getOperand2()))
-	{
-		os << "(" << getOperand2()->toString() << ")";
-	}
-	else
-	{
-		os << getOperand2()->toString();
-	}
+	if (getOperand2()->symbol() == '+') os << "(" << getOperand2()->toString() << ")";
+	else os << getOperand2()->toString();
 	return os.str();
+}
+
+char Multiplication::symbol()
+{
+	return '*';
 }

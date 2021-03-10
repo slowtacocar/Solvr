@@ -14,3 +14,18 @@ char Variable::getLetter()
 {
 	return letter;
 }
+
+char Variable::symbol()
+{
+	return 'a';
+}
+
+Constant* Variable::getConstant()
+{
+	return nullptr;
+}
+
+Expression* Variable::getNonConstant()
+{
+	return this;
+}

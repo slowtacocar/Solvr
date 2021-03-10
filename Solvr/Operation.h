@@ -14,4 +14,6 @@ public:
 	Operation(Expression* operand1, Expression* operand2);
 	Expression* getOperand1();
 	Expression* getOperand2();
+	Constant* getConstant() override;
+	Expression* getNonConstant() override;
 };

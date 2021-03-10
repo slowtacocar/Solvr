@@ -1,9 +1,7 @@
 #pragma once
 
 #include "Addition.h"
-#include "Subtraction.h"
 #include "Multiplication.h"
-#include "Division.h"
 
 #include <sstream>
 #include <cmath>
@@ -14,4 +12,5 @@ public:
 	using Operation::Operation;
 	Expression* simplify() override;
 	std::string toString() override;
+	char symbol() override;
 };

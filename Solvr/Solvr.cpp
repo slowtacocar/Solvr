@@ -1,87 +1,102 @@
 ﻿#include "Solvr.h"
 
-Expression* parseExpression(std::string string, int start, int stop)
+bool debug = false;
+
+Constant* readDigits(std::string string, size_t start, size_t stop)
 {
-	if (start + 1 == stop && std::isalpha(string[start]))
-	{
-		return new Variable(string[start]);
-	}
-	int openParens = 0;
-	int closeParens = 0;
-	char add = 0;
-	char mult = 0;
-	bool exp = false;
-	int lastAdd;
-	int lastMult;
-	int lastExp;
-	bool allDigits = true;
+	if (start == stop) throw std::invalid_argument("An empty string is not a valid number");
 	double constant = 0;
 	double multiplier = 1;
-	if (string[start] == '(' && string[stop - 1] == ')')
+	size_t i = start;
+	if (string[start] == '-') i++;
+	for (; i < stop; i++)
 	{
-		start++;
-		stop--;
-	}
-	for (int i = start; i < stop; i++)
-	{
+		// Read the string as a number
 		if (std::isdigit(string[i]))
 		{
 			if (multiplier == 1) constant *= 10;
-			constant += (string[i] - '0') * multiplier;
+			constant += ((double) string[i] - '0') * multiplier;
 			if (multiplier < 1) multiplier /= 10;
 		}
 		else if (string[i] == '.') multiplier = 0.1;
-		else
+		else throw std::invalid_argument(string + " is not a valid number");
+	}
+	if (string[start] == '-') constant *= -1;
+	if (debug) std::cout << "Parsed \"" << string.substr(start, stop - start) << "\" as " << constant << std::endl;
+	return new Constant(constant);
+}
+
+Expression* parseExpression(std::string string, size_t start, size_t stop)
+{
+	if (start + 1 == stop && std::isalpha(string[start]))
+	{
+		if (debug) std::cout << "Parsed " << string[start] << " as a variable" << std::endl;
+		// The expression is 1 character long and it's alphabetic (it's a variable)
+		return new Variable(string[start]);
+	}
+	int parens = 0;
+	size_t lastAdd = 0;
+	size_t lastMult = 0;
+	size_t lastExp = 0;
+	while (string[start] == '(' && string[stop - 1] == ')')
+	{
+		for (size_t i = start + 1; i < stop - 1; i++)
 		{
-			if (string[i] == '(') openParens++;
-			else if (string[i] == ')') closeParens++;
-			else
+			if (string[i] == '(') parens++;
+			else if (string[i] == ')') parens--;
+			if (parens < 0)
 			{
-				allDigits = false;
-				if (string[i] == '+' && openParens == closeParens)
-				{
-					lastAdd = i;
-					add = '+';
-				}
-				else if (string[i] == '-' && openParens == closeParens)
-				{
-					lastAdd = i;
-					add = '-';
-				}
-				else if (string[i] == '*' && openParens == closeParens)
-				{
-					lastMult = i;
-					mult = '*';
-				}
-				else if (string[i] == '/' && openParens == closeParens)
-				{
-					lastMult = i;
-					mult = '/';
-				}
-				else if (!exp && string[i] == '^' && openParens == closeParens)
-				{
-					lastExp = i;
-					exp = true;
-				}
+				goto endwhile;
 			}
 		}
+		start++;
+		stop--;
 	}
-	if (allDigits && openParens == closeParens) return new Constant(constant);
-	if (add != 0)
+endwhile:
+	parens = 0;
+	try
 	{
-		if (add == '+') return new Addition(parseExpression(string, start, lastAdd), parseExpression(string, lastAdd + 1, stop));
-		return new Subtraction(parseExpression(string, start, lastAdd), parseExpression(string, lastAdd + 1, stop));
+		return readDigits(string, start, stop);
 	}
-	if (mult != 0)
+	catch (std::invalid_argument e)
 	{
-		if (mult == '*') return new Multiplication(parseExpression(string, start, lastMult), parseExpression(string, lastMult + 1, stop));
-		return new Division(parseExpression(string, start, lastMult), parseExpression(string, lastMult + 1, stop));
+		for (size_t i = start; i < stop; i++)
+		{
+			if (string[i] == '(') parens++;
+			else if (string[i] == ')') parens--;
+			else if (parens == 0)
+			{
+				// If the parentheses are matched, record the operator
+				if (string[i] == '+') lastAdd = i;
+				else if (string[i] == '-') lastAdd = i;
+				else if (string[i] == '*') lastMult = i;
+				else if (string[i] == '/') lastMult = i;
+				else if (lastExp == 0 && string[i] == '^') lastExp = i;
+			}
+		}
+		if (lastAdd > 0)
+		{
+			if (debug) std::cout << "Evaluating addition at position " << lastAdd << ": " << string.substr(start, stop - start) << std::endl;
+			// Addition and subtraction take precedence
+			if (string[lastAdd] == '+') return new Addition(parseExpression(string, start, lastAdd), parseExpression(string, lastAdd + 1, stop));
+			return new Addition(parseExpression(string, start, lastAdd), new Multiplication(new Constant(-1), parseExpression(string, lastAdd + 1, stop)));
+		}
+		if (lastMult > 0)
+		{
+			if (debug) std::cout << "Evaluating multiplication at position " << lastMult << ": " << string.substr(start, stop - start) << std::endl;
+			// Multiplication and division are next
+			if (string[lastMult] == '*') return new Multiplication(parseExpression(string, start, lastMult), parseExpression(string, lastMult + 1, stop));
+			return new Multiplication(parseExpression(string, start, lastMult), new Exponentiation(parseExpression(string, lastMult + 1, stop), new Constant(-1)));
+		}
+		if (lastExp > 0)
+		{
+			if (debug) std::cout << "Evaluating exponentiation at position " << lastExp << ": " << string.substr(start, stop - start) << std::endl;
+			// Exponentiation is the last
+			return new Exponentiation(parseExpression(string, start, lastExp), parseExpression(string, lastExp + 1, stop));
+		}
+		// If no operators were found, throw an error
+		throw std::invalid_argument(string + " is not a valid expression");
 	}
-	if (exp)
-	{
-		return new Exponentiation(parseExpression(string, start, lastExp), parseExpression(string, lastExp + 1, stop));
-	}
-	throw BadExpression();
 }
 
 int main()
@@ -103,11 +118,11 @@ int main()
 			try
 			{
 				Expression* exp = parseExpression(input, 0, input.length());
-				std::cout << exp->toString() << "=";
+				if (debug) std::cout << exp->toString() << "=";
 				Expression* result = exp->simplify();
 				std::cout << result->toString() << std::endl;
 			}
-			catch (BadExpression e)
+			catch (std::invalid_argument e)
 			{
 				std::cout << e.what() << std::endl;
 			}

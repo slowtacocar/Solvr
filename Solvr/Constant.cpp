@@ -12,7 +12,8 @@ Constant::Constant(double value)
 
 std::string Constant::toString()
 {
-	return std::to_string(value);
+	if (value >= 0) return std::to_string(value);
+	return "(" + std::to_string(value) + ")";
 }
 
 double Constant::getValue()
@@ -23,4 +24,19 @@ double Constant::getValue()
 void Constant::setValue(double value)
 {
 	this->value = value;
+}
+
+char Constant::symbol()
+{
+	return '0';
+}
+
+Constant* Constant::getConstant()
+{
+	return this;
+}
+
+Expression* Constant::getNonConstant()
+{
+	return nullptr;
 }

@@ -13,4 +13,7 @@ public:
 	std::string toString() override;
 	double getValue();
 	void setValue(double value);
+	char symbol() override;
+	Constant* getConstant() override;
+	Expression* getNonConstant() override;
 };

@@ -16,4 +16,19 @@ Expression* Operation::getOperand2()
 	return operand2;
 }
 
+Constant* Operation::getConstant()
+{
+	if (operand1->symbol() == '0') return dynamic_cast<Constant*>(operand1);
+	if (operand2->symbol() == '0') return dynamic_cast<Constant*>(operand2);
+	return nullptr;
+}
+
+Expression* Operation::getNonConstant()
+{
+	if (operand1->symbol() != 0 && operand2->symbol() != 0) return this;
+	if (operand1->symbol() != '0') return operand1;
+	if (operand2->symbol() != '0') return operand2;
+	return nullptr;
+}
+
 
