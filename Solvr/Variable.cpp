@@ -1,31 +1,25 @@
+//
+// Created by slowt on 3/11/2021.
+//
+
 #include "Variable.h"
 
-Variable::Variable(char letter)
-{
-	this->letter = letter;
+Variable::Variable(char letter) {
+    this->letter = letter;
 }
 
-std::string Variable::toString()
-{
-	return std::string(1, letter);
+std::string Variable::toString() {
+    return std::string(1, letter);
 }
 
-char Variable::getLetter()
-{
-	return letter;
+char Variable::symbol() {
+    return 'a';
 }
 
-char Variable::symbol()
-{
-	return 'a';
+Expression *Variable::getConstant() {
+    return nullptr;
 }
 
-Constant* Variable::getConstant()
-{
-	return nullptr;
-}
-
-Expression* Variable::getNonConstant()
-{
-	return this;
+Expression *Variable::getNonConstant() {
+    return this;
 }

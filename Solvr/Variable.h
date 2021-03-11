@@ -1,19 +1,30 @@
-#pragma once
+//
+// Created by slowt on 3/11/2021.
+//
+
+#ifndef SOLVR_VARIABLE_H
+#define SOLVR_VARIABLE_H
+
 
 #include "Expression.h"
 
 #include <string>
 
-class Variable: public Expression
-{
+class Variable : public Expression {
 private:
-	char letter;
+    char letter;
 
 public:
-	Variable(char letter);
-	std::string toString() override;
-	char getLetter();
-	char symbol() override;
-	Constant* getConstant() override;
-	Expression* getNonConstant() override;
+    explicit Variable(char letter);
+
+    std::string toString() override;
+
+    char symbol() override;
+
+    Expression *getConstant() override;
+
+    Expression *getNonConstant() override;
 };
+
+
+#endif //SOLVR_VARIABLE_H
