@@ -5,32 +5,38 @@
 #include "Exponentiation.h"
 
 Expression *Exponentiation::simplify() {
-    Expression *simplified1 = getOperand1()->simplify();
-    Expression *simplified2 = getOperand2()->simplify();
+    Expression *simplified1 = getOperand1().simplify();
+    Expression *simplified2 = getOperand2().simplify();
+    Expression *ret;
     if (simplified1->symbol() == '0' && simplified2->symbol() == '0') {
-        return new Constant(pow(((Constant *) simplified1)->getValue(), ((Constant *) simplified2)->getValue()));
+        ret = new Constant(pow(((Constant *) simplified1)->getValue(), ((Constant *) simplified2)->getValue()));
     }
-    if (simplified1->symbol() == '0' && ((Constant *) simplified1)->getValue() == 0) return new Constant();
-    if (simplified1->symbol() == '0' && ((Constant *) simplified1)->getValue() == 1) return new Constant(1);
-    if (simplified2->symbol() == '0' && ((Constant *) simplified2)->getValue() == 0) return new Constant(1);
-    if (simplified2->symbol() == '0' && ((Constant *) simplified2)->getValue() == 1) return simplified1;
-    if (simplified1->symbol() == '^') {
-        auto *exp = dynamic_cast<Exponentiation *>(simplified1);
-        return new Exponentiation(exp->getOperand1(), Multiplication(exp->getOperand2(), simplified2).simplify());
+    else if (simplified1->symbol() == '0' && ((Constant *) simplified1)->getValue() == 0) ret = new Constant();
+    else if (simplified1->symbol() == '0' && (((Constant *) simplified1)->getValue() == 1 || ((Constant *) simplified2)->getValue() == 0)) ret = new Constant(1);
+    else if (simplified2->symbol() == '0' && ((Constant *) simplified2)->getValue() == 1) ret = simplified1->copy();
+    else if (simplified1->symbol() == '^') {
+        ret = new Exponentiation(((Exponentiation *) simplified1)->getOperand1().copy(), Multiplication(((Exponentiation *) simplified1)->getOperand2().copy(), simplified2->copy()).simplify());
     }
-    return new Exponentiation(simplified1, simplified2);
+    else ret = new Exponentiation(simplified1->copy(), simplified2->copy());
+    delete simplified1;
+    delete simplified2;
+    return ret;
 }
 
 std::string Exponentiation::toString() {
     std::ostringstream os;
-    if (getOperand1()->symbol() == '+' || getOperand1()->symbol() == '*' || getOperand1()->symbol() == '^') os << "(" << getOperand1()->toString() << ")";
-    else os << getOperand1()->toString();
+    if (getOperand1().symbol() == '+' || getOperand1().symbol() == '*' || getOperand1().symbol() == '^') os << "(" << getOperand1().toString() << ")";
+    else os << getOperand1().toString();
     os << "^";
-    if (getOperand2()->symbol() == '+' || getOperand2()->symbol() == '*') os << "(" << getOperand2()->toString() << ")";
-    else os << getOperand2()->toString();
+    if (getOperand2().symbol() == '+' || getOperand2().symbol() == '*') os << "(" << getOperand2().toString() << ")";
+    else os << getOperand2().toString();
     return os.str();
 }
 
 char Exponentiation::symbol() {
     return '^';
+}
+
+Expression *Exponentiation::copy() {
+    return new Exponentiation(getOperand1().copy(), getOperand2().copy());
 }

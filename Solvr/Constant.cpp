@@ -34,3 +34,7 @@ Expression *Constant::getConstant() {
 Expression *Constant::getNonConstant() {
     return nullptr;
 }
+
+Expression *Constant::copy() {
+    return new Constant(getValue());
+}

@@ -18,6 +18,8 @@ public:
     std::string toString() override;
 
     char symbol() override;
+
+    Expression* copy() override;
 };
 
 

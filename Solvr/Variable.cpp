@@ -12,6 +12,10 @@ std::string Variable::toString() {
     return std::string(1, letter);
 }
 
+char Variable::getLetter() const {
+    return letter;
+}
+
 char Variable::symbol() {
     return 'a';
 }
@@ -22,4 +26,8 @@ Expression *Variable::getConstant() {
 
 Expression *Variable::getNonConstant() {
     return this;
+}
+
+Expression *Variable::copy() {
+    return new Variable(this->getLetter());
 }

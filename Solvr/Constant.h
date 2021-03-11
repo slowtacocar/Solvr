@@ -28,6 +28,8 @@ public:
     Expression *getConstant() override;
 
     Expression *getNonConstant() override;
+
+    Expression *copy() override;
 };
 
 

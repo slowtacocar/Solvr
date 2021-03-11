@@ -9,12 +9,12 @@ Operation::Operation(Expression *operand1, Expression *operand2) {
     this->operand2 = operand2;
 }
 
-Expression *Operation::getOperand1() {
-    return operand1;
+Expression &Operation::getOperand1() {
+    return *operand1;
 }
 
-Expression *Operation::getOperand2() {
-    return operand2;
+Expression &Operation::getOperand2() {
+    return *operand2;
 }
 
 Expression *Operation::getConstant() {
@@ -30,4 +30,7 @@ Expression *Operation::getNonConstant() {
     return nullptr;
 }
 
-
+Operation::~Operation() {
+    delete operand1;
+    delete operand2;
+}

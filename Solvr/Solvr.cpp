@@ -95,6 +95,8 @@ int main() {
                 if (debug) std::cout << exp->toString() << "=";
                 Expression *result = exp->simplify();
                 std::cout << result->toString() << std::endl;
+                delete exp;
+                delete result;
             }
             catch (std::invalid_argument &e) {
                 std::cout << e.what() << std::endl;

@@ -19,6 +19,10 @@ public:
     virtual Expression *getConstant() = 0;
 
     virtual Expression *getNonConstant() = 0;
+
+    virtual ~Expression() = default;
+
+    virtual Expression *copy() = 0;
 };
 
 

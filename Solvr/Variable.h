@@ -19,11 +19,15 @@ public:
 
     std::string toString() override;
 
+    char getLetter() const;
+
     char symbol() override;
 
     Expression *getConstant() override;
 
     Expression *getNonConstant() override;
+
+    Expression* copy() override;
 };
 
 
