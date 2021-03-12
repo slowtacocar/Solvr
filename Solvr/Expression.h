@@ -10,11 +10,11 @@
 
 class Expression {
 public:
-    virtual Expression *simplify();
+    virtual Expression *simplify() const;
 
-    virtual std::string toString() = 0;
+    virtual std::string toString() const = 0;
 
-    virtual char symbol() = 0;
+    virtual char symbol() const = 0;
 
     virtual Expression *getConstant() = 0;
 
@@ -22,7 +22,9 @@ public:
 
     virtual ~Expression() = default;
 
-    virtual Expression *copy() = 0;
+    virtual Expression *copy() const = 0;
+
+    virtual bool isEqual(Expression &expression) const = 0;
 };
 
 

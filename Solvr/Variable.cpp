@@ -8,7 +8,7 @@ Variable::Variable(char letter) {
     this->letter = letter;
 }
 
-std::string Variable::toString() {
+std::string Variable::toString() const {
     return std::string(1, letter);
 }
 
@@ -16,7 +16,7 @@ char Variable::getLetter() const {
     return letter;
 }
 
-char Variable::symbol() {
+char Variable::symbol() const {
     return 'a';
 }
 
@@ -28,6 +28,10 @@ Expression *Variable::getNonConstant() {
     return this;
 }
 
-Expression *Variable::copy() {
+Expression *Variable::copy() const {
     return new Variable(this->getLetter());
+}
+
+bool Variable::isEqual(Expression &expression) const {
+    return expression.symbol() == 'a' && ((Variable &) expression).getLetter() == getLetter();
 }

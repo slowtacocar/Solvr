@@ -23,11 +23,6 @@ Constant *readDigits(std::string string, size_t start, size_t stop) {
 }
 
 Expression *parseExpression(std::string string, size_t start, size_t stop) {
-    if (start + 1 == stop && std::isalpha(string[start])) {
-        if (debug) std::cout << "Parsed " << string[start] << " as a variable" << std::endl;
-        // The expression is 1 character long and it's alphabetic (it's a variable)
-        return new Variable(string[start]);
-    }
     int parens = 0;
     size_t lastAdd = 0;
     size_t lastMult = 0;
@@ -43,6 +38,11 @@ Expression *parseExpression(std::string string, size_t start, size_t stop) {
     }
     endwhile:
     parens = 0;
+    if (start + 1 == stop && std::isalpha(string[start])) {
+        if (debug) std::cout << "Parsed " << string[start] << " as a variable" << std::endl;
+        // The expression is 1 character long and it's alphabetic (it's a variable)
+        return new Variable(string[start]);
+    }
     try {
         return readDigits(string, start, stop);
     }

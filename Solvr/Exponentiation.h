@@ -17,13 +17,15 @@ class Exponentiation : public Operation {
 public:
     using Operation::Operation;
 
-    Expression *simplify() override;
+    Expression *simplify() const override;
 
-    std::string toString() override;
+    std::string toString() const override;
 
-    char symbol() override;
+    char symbol() const override;
 
-    Expression* copy() override;
+    Expression* copy() const override;
+
+    bool isEqual(Expression &expression) const override;
 };
 
 

@@ -12,7 +12,7 @@ Constant::Constant(double value) {
     this->value = value;
 }
 
-std::string Constant::toString() {
+std::string Constant::toString() const {
     std::ostringstream ss;
     ss << value;
     if (value >= 0) return ss.str();
@@ -23,7 +23,7 @@ double Constant::getValue() const {
     return value;
 }
 
-char Constant::symbol() {
+char Constant::symbol() const {
     return '0';
 }
 
@@ -35,6 +35,10 @@ Expression *Constant::getNonConstant() {
     return nullptr;
 }
 
-Expression *Constant::copy() {
+Expression *Constant::copy() const {
     return new Constant(getValue());
+}
+
+bool Constant::isEqual(Expression &expression) const {
+    return expression.symbol() == '0' && ((Constant &) expression).getValue() == getValue();
 }

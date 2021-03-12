@@ -4,7 +4,7 @@
 
 #include "Exponentiation.h"
 
-Expression *Exponentiation::simplify() {
+Expression *Exponentiation::simplify() const {
     Expression *simplified1 = getOperand1().simplify();
     Expression *simplified2 = getOperand2().simplify();
     Expression *ret;
@@ -23,7 +23,7 @@ Expression *Exponentiation::simplify() {
     return ret;
 }
 
-std::string Exponentiation::toString() {
+std::string Exponentiation::toString() const {
     std::ostringstream os;
     if (getOperand1().symbol() == '+' || getOperand1().symbol() == '*' || getOperand1().symbol() == '^') os << "(" << getOperand1().toString() << ")";
     else os << getOperand1().toString();
@@ -33,10 +33,14 @@ std::string Exponentiation::toString() {
     return os.str();
 }
 
-char Exponentiation::symbol() {
+char Exponentiation::symbol() const {
     return '^';
 }
 
-Expression *Exponentiation::copy() {
+Expression *Exponentiation::copy() const {
     return new Exponentiation(getOperand1().copy(), getOperand2().copy());
+}
+
+bool Exponentiation::isEqual(Expression &expression) const {
+    return expression.symbol() == '^' && ((Exponentiation &) expression).getOperand1().isEqual(getOperand1()) && ((Exponentiation &) expression).getOperand2().isEqual(getOperand2());
 }

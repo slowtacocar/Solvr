@@ -17,17 +17,19 @@ private:
 public:
     explicit Variable(char letter);
 
-    std::string toString() override;
+    std::string toString() const override;
 
     char getLetter() const;
 
-    char symbol() override;
+    char symbol() const override;
 
     Expression *getConstant() override;
 
     Expression *getNonConstant() override;
 
-    Expression* copy() override;
+    Expression* copy() const override;
+
+    bool isEqual(Expression &expression) const override;
 };
 
 

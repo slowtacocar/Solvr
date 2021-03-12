@@ -9,11 +9,11 @@ Operation::Operation(Expression *operand1, Expression *operand2) {
     this->operand2 = operand2;
 }
 
-Expression &Operation::getOperand1() {
+Expression &Operation::getOperand1() const {
     return *operand1;
 }
 
-Expression &Operation::getOperand2() {
+Expression &Operation::getOperand2() const {
     return *operand2;
 }
 

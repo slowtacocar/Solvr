@@ -20,9 +20,9 @@ public:
 
     ~Operation() override;
 
-    Expression &getOperand1();
+    Expression & getOperand1() const;
 
-    Expression &getOperand2();
+    Expression & getOperand2() const;
 
     Expression *getConstant() override;
 

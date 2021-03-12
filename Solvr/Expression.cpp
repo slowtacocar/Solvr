@@ -4,6 +4,6 @@
 
 #include "Expression.h"
 
-Expression *Expression::simplify() {
+Expression *Expression::simplify() const {
     return copy();
 }
