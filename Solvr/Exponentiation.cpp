@@ -12,7 +12,7 @@ Expression *Exponentiation::simplify() const {
         ret = new Constant(pow(((Constant *) simplified1)->getValue(), ((Constant *) simplified2)->getValue()));
     }
     else if (simplified1->symbol() == '0' && ((Constant *) simplified1)->getValue() == 0) ret = new Constant();
-    else if (simplified1->symbol() == '0' && (((Constant *) simplified1)->getValue() == 1 || ((Constant *) simplified2)->getValue() == 0)) ret = new Constant(1);
+    else if ((simplified1->symbol() == '0' && ((Constant *) simplified1)->getValue() == 1) || (simplified2->symbol() == '0' && ((Constant *) simplified2)->getValue() == 0)) ret = new Constant(1);
     else if (simplified2->symbol() == '0' && ((Constant *) simplified2)->getValue() == 1) ret = simplified1->copy();
     else if (simplified1->symbol() == '^') {
         ret = new Exponentiation(((Exponentiation *) simplified1)->getOperand1().copy(), Multiplication(((Exponentiation *) simplified1)->getOperand2().copy(), simplified2->copy()).simplify());

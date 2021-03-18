@@ -10,6 +10,7 @@
 #include "Exponentiation.h"
 
 #include <sstream>
+#include <iostream>
 
 class Multiplication : public Operation {
 public:

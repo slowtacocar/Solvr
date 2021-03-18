@@ -5,9 +5,6 @@
 #include "Addition.h"
 
 Expression *Addition::simplify() const {
-    Expression *simplified1 = getOperand1().simplify();
-    Expression *simplified2 = getOperand2().simplify();
-
     std::vector<Expression *> terms = getTerms();
     std::vector<std::pair<double, Expression *>> variables;
     double constant = 0;
@@ -26,16 +23,21 @@ Expression *Addition::simplify() const {
     }
     Expression *combined = nullptr;
     for (auto variable : variables) {
-        if (combined) {
-            combined = new Addition(combined, Multiplication(new Constant(variable.first), variable.second->copy()).simplify());
+        Expression *m = Multiplication(new Constant(variable.first), variable.second->copy()).simplify();
+        if (m->symbol() == '0') {
+            constant += ((Constant *) m)->getValue();
+            delete m;
         } else {
-            combined = Multiplication(new Constant(variable.first), variable.second->copy()).simplify();
+            if (combined) {
+                combined = new Addition(combined, m);
+            } else {
+                combined = m;
+            }
         }
     }
     if (!combined) return new Constant(constant);
     if (constant != 0) combined = new Addition(combined, new Constant(constant));
-    delete simplified1;
-    delete simplified2;
+    terms.clear();
     return combined;
 }
 
@@ -56,22 +58,26 @@ std::vector<Expression *> Addition::getTerms() const {
     if (getOperand1().symbol() == '+') {
         std::vector<Expression *> terms = ((Addition &) getOperand1()).getTerms();
         ret.insert(ret.end(), terms.begin(), terms.end());
-    } else if (getOperand1().symbol() == '*' && getOperand1().getConstant()) {
-        ret.push_back((Multiplication *) &getOperand1());
-    } else if (getOperand1().symbol() == '0') {
-        ret.push_back(&getOperand1());
     } else {
-        ret.push_back(new Multiplication(new Constant(1), &getOperand1()));
+        Expression *simplified1 = getOperand1().simplify();
+        if ((simplified1->symbol() == '*' && simplified1->getConstant()) || simplified1->symbol() == '0') {
+            ret.push_back(simplified1->copy());
+        } else {
+            ret.push_back(new Multiplication(new Constant(1), simplified1->copy()));
+        }
+        delete simplified1;
     }
     if (getOperand2().symbol() == '+') {
         std::vector<Expression *> terms = ((Addition &) getOperand2()).getTerms();
         ret.insert(ret.end(), terms.begin(), terms.end());
-    } else if (getOperand2().symbol() == '*' && getOperand2().getConstant()) {
-        ret.push_back((Multiplication *) &getOperand2());
-    } else if (getOperand2().symbol() == '0') {
-        ret.push_back(&getOperand2());
     } else {
-        ret.push_back(new Multiplication(new Constant(1), &getOperand2()));
+        Expression *simplified2 = getOperand2().simplify();
+        if ((simplified2->symbol() == '*' && simplified2->getConstant()) || simplified2->symbol() == '0') {
+            ret.push_back(simplified2->copy());
+        } else {
+            ret.push_back(new Multiplication(new Constant(1), simplified2->copy()));
+        }
+        delete simplified2;
     }
     return ret;
 }
