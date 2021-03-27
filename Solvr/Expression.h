@@ -7,6 +7,7 @@
 
 
 #include <string>
+#include <vector>
 
 class Expression {
 public:
@@ -25,6 +26,10 @@ public:
     virtual Expression *copy() const = 0;
 
     virtual bool isEqual(Expression &expression) const = 0;
+
+    virtual std::vector<Expression *> allVariables() = 0;
+
+    virtual bool contains(Expression &expression) const = 0;
 };
 
 

@@ -340,4 +340,4 @@ ASALocalRun/
 healthchecksdb
 
 /out
-/cmake-build-debug
+/cmake-build-verbose

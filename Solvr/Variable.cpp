@@ -35,3 +35,11 @@ Expression *Variable::copy() const {
 bool Variable::isEqual(Expression &expression) const {
     return expression.symbol() == 'a' && ((Variable &) expression).getLetter() == getLetter();
 }
+
+std::vector<Expression *> Variable::allVariables() {
+    return std::vector<Expression *>(1, this);
+}
+
+bool Variable::contains(Expression &expression) const {
+    return isEqual(expression);
+}

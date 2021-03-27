@@ -42,7 +42,11 @@ Expression *Addition::simplify() const {
 }
 
 std::string Addition::toString() const {
-    return getOperand1().toString() + "+" + getOperand2().toString();
+    std::string f = getOperand1().toString();
+    std::string l = getOperand2().toString();
+    if (f[0] == '-') return l + f;
+    if (l[0] == '-') return f + l;
+    return f + "+" + l;
 }
 
 char Addition::symbol() const {
@@ -83,5 +87,15 @@ std::vector<Expression *> Addition::getTerms() const {
 }
 
 bool Addition::isEqual(Expression &expression) const {
-    return expression.symbol() == '+' && ((((Addition &) expression).getOperand1().isEqual(getOperand1()) && ((Addition &) expression).getOperand2().isEqual(getOperand2())) || (((Addition &) expression).getOperand1().isEqual(getOperand2()) && ((Addition &) expression).getOperand2().isEqual(getOperand1())));
+    if (expression.symbol() == '+') {
+        Expression &op1 = ((Addition &) expression).getOperand1();
+        Expression &op2 = ((Addition &) expression).getOperand2();
+        if (op1.isEqual(getOperand1()) && op2.isEqual(getOperand2())) {
+            return true;
+        }
+        if (op1.isEqual(getOperand2()) && op2.isEqual(getOperand1())) {
+            return true;
+        }
+    }
+    return false;
 }

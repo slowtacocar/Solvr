@@ -12,9 +12,9 @@
 #include <sstream>
 #include <iostream>
 
-class Multiplication : public Operation {
+class Multiplication : public BinaryOperation {
 public:
-    using Operation::Operation;
+    using BinaryOperation::BinaryOperation;
 
     Expression *simplify() const override;
 
@@ -22,7 +22,7 @@ public:
 
     char symbol() const override;
 
-    Expression* copy() const override;
+    Expression *copy() const override;
 
     std::vector<Expression *> getPowers() const;
 

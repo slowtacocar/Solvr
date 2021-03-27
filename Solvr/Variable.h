@@ -27,9 +27,13 @@ public:
 
     Expression *getNonConstant() override;
 
-    Expression* copy() const override;
+    Expression *copy() const override;
 
     bool isEqual(Expression &expression) const override;
+
+    std::vector<Expression *> allVariables() override;
+
+    bool contains(Expression &expression) const override;
 };
 
 

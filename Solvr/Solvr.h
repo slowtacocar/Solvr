@@ -10,6 +10,8 @@
 #include "Multiplication.h"
 #include "Exponentiation.h"
 #include "Variable.h"
+#include "Equation.h"
+#include "InvalidExpression.h"
 
 #include <iostream>
 

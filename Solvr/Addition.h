@@ -6,15 +6,15 @@
 #define SOLVR_ADDITION_H
 
 
-#include "Operation.h"
+#include "BinaryOperation.h"
 #include "Constant.h"
 #include "Multiplication.h"
 
 #include <utility>
 
-class Addition : public Operation {
+class Addition : public BinaryOperation {
 public:
-    using Operation::Operation;
+    using BinaryOperation::BinaryOperation;
 
     Expression *simplify() const override;
 
@@ -22,7 +22,7 @@ public:
 
     char symbol() const override;
 
-    Expression* copy() const override;
+    Expression *copy() const override;
 
     std::vector<Expression *> getTerms() const;
 

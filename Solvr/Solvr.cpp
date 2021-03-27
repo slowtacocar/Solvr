@@ -1,9 +1,9 @@
 #include "Solvr.h"
 
-bool debug = false;
+bool verbose = false;
 
 Constant *readDigits(std::string string, size_t start, size_t stop) {
-    if (start == stop) throw std::invalid_argument("An empty string is not a valid number");
+    if (start == stop) throw InvalidExpression(string.c_str());
     double constant = 0;
     double multiplier = 1;
     size_t i = start;
@@ -15,10 +15,10 @@ Constant *readDigits(std::string string, size_t start, size_t stop) {
             constant += ((double) string[i] - '0') * multiplier;
             if (multiplier < 1) multiplier /= 10;
         } else if (string[i] == '.') multiplier = 0.1;
-        else throw std::invalid_argument(string + " is not a valid number");
+        else throw InvalidExpression(string.c_str());
     }
     if (string[start] == '-') constant *= -1;
-    if (debug) std::cout << "Parsed \"" << string.substr(start, stop - start) << "\" as " << constant << std::endl;
+    if (verbose) std::cout << "Parsed \"" << string.substr(start, stop - start) << "\" as " << constant << std::endl;
     return new Constant(constant);
 }
 
@@ -39,14 +39,14 @@ Expression *parseExpression(std::string string, size_t start, size_t stop) {
     endwhile:
     parens = 0;
     if (start + 1 == stop && std::isalpha(string[start])) {
-        if (debug) std::cout << "Parsed " << string[start] << " as a variable" << std::endl;
+        if (verbose) std::cout << "Parsed " << string[start] << " as a variable" << std::endl;
         // The expression is 1 character long and it's alphabetic (it's a variable)
         return new Variable(string[start]);
     }
     try {
         return readDigits(string, start, stop);
     }
-    catch (std::invalid_argument &e) {
+    catch (InvalidExpression &) {
         for (size_t i = start; i < stop; i++) {
             if (string[i] == '(') parens++;
             else if (string[i] == ')') parens--;
@@ -58,24 +58,39 @@ Expression *parseExpression(std::string string, size_t start, size_t stop) {
             }
         }
         if (lastAdd > 0) {
-            if (debug) std::cout << "Evaluating addition at position " << lastAdd << ": " << string.substr(start, stop - start) << std::endl;
+            if (verbose) {
+                std::cout << "Evaluating addition at position " << lastAdd << ": ";
+                std::cout << string.substr(start, stop - start) << std::endl;
+            }
             // Addition and subtraction take precedence
-            if (string[lastAdd] == '+') return new Addition(parseExpression(string, start, lastAdd), parseExpression(string, lastAdd + 1, stop));
-            return new Addition(parseExpression(string, start, lastAdd), new Multiplication(new Constant(-1), parseExpression(string, lastAdd + 1, stop)));
+            Expression *left = parseExpression(string, start, lastAdd);
+            Expression *right = parseExpression(string, lastAdd + 1, stop);
+            if (string[lastAdd] == '+') return new Addition(left, right);
+            return new Addition(left, new Multiplication(new Constant(-1), right));
         }
         if (lastMult > 0) {
-            if (debug) std::cout << "Evaluating multiplication at position " << lastMult << ": " << string.substr(start, stop - start) << std::endl;
+            if (verbose) {
+                std::cout << "Evaluating multiplication at position " << lastMult << ": ";
+                std::cout << string.substr(start, stop - start) << std::endl;
+            }
             // Multiplication and division are next
-            if (string[lastMult] == '*') return new Multiplication(parseExpression(string, start, lastMult), parseExpression(string, lastMult + 1, stop));
-            return new Multiplication(parseExpression(string, start, lastMult), new Exponentiation(parseExpression(string, lastMult + 1, stop), new Constant(-1)));
+            Expression *left = parseExpression(string, start, lastMult);
+            Expression *right = parseExpression(string, lastMult + 1, stop);
+            if (string[lastMult] == '*') return new Multiplication(left, right);
+            return new Multiplication(left, new Exponentiation(right, new Constant(-1)));
         }
         if (lastExp > 0) {
-            if (debug) std::cout << "Evaluating exponentiation at position " << lastExp << ": " << string.substr(start, stop - start) << std::endl;
+            if (verbose) {
+                std::cout << "Evaluating exponentiation at position " << lastExp << ": ";
+                std::cout << string.substr(start, stop - start) << std::endl;
+            }
             // Exponentiation is the last
-            return new Exponentiation(parseExpression(string, start, lastExp), parseExpression(string, lastExp + 1, stop));
+            Expression *left = parseExpression(string, start, lastExp);
+            Expression *right = parseExpression(string, lastExp + 1, stop);
+            return new Exponentiation(left, right);
         }
         // If no operators were found, throw an error
-        throw std::invalid_argument(string + " is not a valid expression");
+        throw InvalidExpression(string.c_str());
     }
 }
 
@@ -91,16 +106,30 @@ int main() {
             running = false;
         } else {
             try {
+                for (size_t i = 0; i < input.length(); i++) {
+                    if (input[i] == '=') {
+                        Expression *side1 = parseExpression(input, 0, i);
+                        Expression *side2 = parseExpression(input, i + 1, input.length());
+                        Equation equ(side1, side2);
+                        if (verbose) std::cout << equ.toString() << std::endl;
+                        std::vector<Equation> results = equ.solve();
+                        for (const auto &result : results) {
+                            std::cout << result.toString() << std::endl;
+                        }
+                        goto end;
+                    }
+                }
                 Expression *exp = parseExpression(input, 0, input.length());
-                if (debug) std::cout << exp->toString() << "=";
+                if (verbose) std::cout << exp->toString() << "=";
                 Expression *result = exp->simplify();
                 std::cout << result->toString() << std::endl;
                 delete exp;
                 delete result;
             }
-            catch (std::invalid_argument &e) {
-                std::cout << e.what() << std::endl;
+            catch (InvalidExpression &e) {
+                std::cout << e.what() << " is not a valid expression" << std::endl;
             }
+            end:;
             std::cout << std::endl;
         }
     }

@@ -15,8 +15,7 @@ Constant::Constant(double value) {
 std::string Constant::toString() const {
     std::ostringstream ss;
     ss << value;
-    if (value >= 0) return ss.str();
-    return "(" + ss.str() + ")";
+    return ss.str();
 }
 
 double Constant::getValue() const {
@@ -41,4 +40,12 @@ Expression *Constant::copy() const {
 
 bool Constant::isEqual(Expression &expression) const {
     return expression.symbol() == '0' && ((Constant &) expression).getValue() == getValue();
+}
+
+bool Constant::contains(Expression &expression) const {
+    return isEqual(expression);
+}
+
+std::vector<Expression *> Constant::allVariables() {
+    return std::vector<Expression *>();
 }

@@ -9,13 +9,14 @@
 #include "Addition.h"
 #include "Multiplication.h"
 #include "Constant.h"
+#include "Logarithm.h"
 
 #include <sstream>
 #include <cmath>
 
-class Exponentiation : public Operation {
+class Exponentiation : public BinaryOperation {
 public:
-    using Operation::Operation;
+    using BinaryOperation::BinaryOperation;
 
     Expression *simplify() const override;
 
@@ -23,7 +24,7 @@ public:
 
     char symbol() const override;
 
-    Expression* copy() const override;
+    Expression *copy() const override;
 
     bool isEqual(Expression &expression) const override;
 };

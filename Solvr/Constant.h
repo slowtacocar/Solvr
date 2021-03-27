@@ -23,7 +23,7 @@ public:
 
     double getValue() const;
 
-    char symbol()const  override;
+    char symbol() const override;
 
     Expression *getConstant() override;
 
@@ -32,6 +32,10 @@ public:
     Expression *copy() const override;
 
     bool isEqual(Expression &expression) const override;
+
+    std::vector<Expression *> allVariables() override;
+
+    bool contains(Expression &expression) const override;
 };
 
 
