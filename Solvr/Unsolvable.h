@@ -8,9 +8,8 @@
 
 #include <exception>
 
-class Unsolvable : public std::exception {
-public:
-    using std::exception::exception;
+class Unsolvable : std::exception {
+
 };
 
 

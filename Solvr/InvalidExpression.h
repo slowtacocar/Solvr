@@ -8,9 +8,8 @@
 
 #include <exception>
 
-class InvalidExpression : public std::exception {
-public:
-    using std::exception::exception;
+class InvalidExpression : std::exception {
+
 };
 
 

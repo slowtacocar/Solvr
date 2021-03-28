@@ -59,30 +59,30 @@ Expression *Addition::copy() const {
 
 std::vector<Expression *> Addition::getTerms() const {
     std::vector<Expression *> ret;
-    if (getOperand1().symbol() == '+') {
-        std::vector<Expression *> terms = ((Addition &) getOperand1()).getTerms();
+    Expression *simplified1 = getOperand1().simplify();
+    if (simplified1->symbol() == '+') {
+        std::vector<Expression *> terms = ((Addition *) simplified1)->getTerms();
         ret.insert(ret.end(), terms.begin(), terms.end());
     } else {
-        Expression *simplified1 = getOperand1().simplify();
         if ((simplified1->symbol() == '*' && simplified1->getConstant()) || simplified1->symbol() == '0') {
             ret.push_back(simplified1->copy());
         } else {
             ret.push_back(new Multiplication(new Constant(1), simplified1->copy()));
         }
-        delete simplified1;
     }
-    if (getOperand2().symbol() == '+') {
-        std::vector<Expression *> terms = ((Addition &) getOperand2()).getTerms();
+    Expression *simplified2 = getOperand2().simplify();
+    if (simplified2->symbol() == '+') {
+        std::vector<Expression *> terms = ((Addition *) simplified2)->getTerms();
         ret.insert(ret.end(), terms.begin(), terms.end());
     } else {
-        Expression *simplified2 = getOperand2().simplify();
         if ((simplified2->symbol() == '*' && simplified2->getConstant()) || simplified2->symbol() == '0') {
             ret.push_back(simplified2->copy());
         } else {
             ret.push_back(new Multiplication(new Constant(1), simplified2->copy()));
         }
-        delete simplified2;
     }
+    delete simplified1;
+    delete simplified2;
     return ret;
 }
 

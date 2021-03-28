@@ -15,7 +15,7 @@ Expression *Logarithm::simplify() const {
 }
 
 std::string Logarithm::toString() const {
-    return "log(" + getOperand().toString() + ")";
+    return "ln(" + getOperand().toString() + ")";
 }
 
 char Logarithm::symbol() const {
