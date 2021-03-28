@@ -3,6 +3,12 @@
 //
 
 #include "Equation.h"
+#include "Unsolvable.h"
+#include "Multiplication.h"
+#include "Constant.h"
+#include "Addition.h"
+#include "Exponentiation.h"
+#include "Logarithm.h"
 
 Equation::Equation(Expression *side1, Expression *side2) {
     this->side1 = side1;
@@ -61,7 +67,6 @@ Equation Equation::solve(Variable variable) const {
                 right = new Multiplication(new Logarithm(right), cob);
                 left = &op2;
             }
-            std::cout << left->toString() << "=" << right->toString() << std::endl;
         } else {
             break;
         }

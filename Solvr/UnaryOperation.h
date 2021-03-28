@@ -6,9 +6,8 @@
 #define SOLVR_UNARYOPERATION_H
 
 
-#include "Expression.h"
-
 #include <vector>
+#include "Expression.h"
 
 class UnaryOperation : public Expression {
 private:

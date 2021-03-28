@@ -6,11 +6,10 @@
 #define SOLVR_MULTIPLICATION_H
 
 
-#include "Addition.h"
-#include "Exponentiation.h"
-
-#include <sstream>
-#include <iostream>
+#include <string>
+#include <vector>
+#include "BinaryOperation.h"
+#include "Expression.h"
 
 class Multiplication : public BinaryOperation {
 public:

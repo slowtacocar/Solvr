@@ -6,13 +6,9 @@
 #define SOLVR_EXPONENTIATION_H
 
 
-#include "Addition.h"
-#include "Multiplication.h"
-#include "Constant.h"
-#include "Logarithm.h"
-
-#include <sstream>
-#include <cmath>
+#include <string>
+#include "BinaryOperation.h"
+#include "Expression.h"
 
 class Exponentiation : public BinaryOperation {
 public:

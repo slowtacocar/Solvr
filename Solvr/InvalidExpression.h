@@ -6,8 +6,6 @@
 #define SOLVR_INVALIDEXPRESSION_H
 
 
-#include <exception>
-
 class InvalidExpression : std::exception {
 
 };

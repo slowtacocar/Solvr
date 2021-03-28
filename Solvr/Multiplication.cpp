@@ -2,7 +2,11 @@
 // Created by slowt on 3/11/2021.
 //
 
+#include <sstream>
 #include "Multiplication.h"
+#include "Addition.h"
+#include "Constant.h"
+#include "Exponentiation.h"
 
 Expression *Multiplication::simplify() const {
     Expression *combined = nullptr;

@@ -3,6 +3,8 @@
 //
 
 #include "Addition.h"
+#include "Constant.h"
+#include "Multiplication.h"
 
 Expression *Addition::simplify() const {
     std::vector<Expression *> terms = getTerms();

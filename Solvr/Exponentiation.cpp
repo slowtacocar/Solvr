@@ -2,7 +2,11 @@
 // Created by slowt on 3/11/2021.
 //
 
+#include <sstream>
 #include "Exponentiation.h"
+#include "Constant.h"
+#include "Logarithm.h"
+#include "Multiplication.h"
 
 Expression *Exponentiation::simplify() const {
     Expression *simplified1 = getOperand1().simplify();

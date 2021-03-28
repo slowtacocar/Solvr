@@ -2,6 +2,7 @@
 // Created by slowt on 3/11/2021.
 //
 
+#include <sstream>
 #include "Constant.h"
 
 Constant::Constant() {

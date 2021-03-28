@@ -3,12 +3,16 @@
 //
 
 #include "Logarithm.h"
+#include "Constant.h"
+#include "Variable.h"
 
 Expression *Logarithm::simplify() const {
     Expression *simplified = getOperand().simplify();
     Expression *ret;
     if (simplified->symbol() == '0') {
         ret = new Constant(log(((Constant *) simplified)->getValue()));
+    } else if (simplified->symbol() == 'a' && ((Variable *) simplified)->getLetter() == 'e') {
+        ret = new Constant(1);
     } else ret = new Logarithm(simplified->copy());
     delete simplified;
     return ret;

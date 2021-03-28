@@ -1,4 +1,15 @@
-#include "Solvr.h"
+#include <string>
+#include <iostream>
+#include <vector>
+#include "Expression.h"
+#include "Addition.h"
+#include "Multiplication.h"
+#include "Constant.h"
+#include "Exponentiation.h"
+#include "InvalidExpression.h"
+#include "Logarithm.h"
+#include "Variable.h"
+#include "Equation.h"
 
 bool verbose = false;
 

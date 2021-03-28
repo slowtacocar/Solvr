@@ -6,10 +6,9 @@
 #define SOLVR_LOGARITHM_H
 
 
+#include <string>
 #include "UnaryOperation.h"
-#include "Constant.h"
-
-#include <cmath>
+#include "Expression.h"
 
 class Logarithm : public UnaryOperation {
 public:

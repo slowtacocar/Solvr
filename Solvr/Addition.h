@@ -6,11 +6,10 @@
 #define SOLVR_ADDITION_H
 
 
+#include <string>
+#include <vector>
 #include "BinaryOperation.h"
-#include "Constant.h"
-#include "Multiplication.h"
-
-#include <utility>
+#include "Expression.h"
 
 class Addition : public BinaryOperation {
 public:

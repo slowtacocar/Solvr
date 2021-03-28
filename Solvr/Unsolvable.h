@@ -6,8 +6,6 @@
 #define SOLVR_UNSOLVABLE_H
 
 
-#include <exception>
-
 class Unsolvable : std::exception {
 
 };

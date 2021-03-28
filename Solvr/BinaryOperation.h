@@ -6,9 +6,8 @@
 #define SOLVR_BINARYOPERATION_H
 
 
-#include "Expression.h"
-
 #include <vector>
+#include "Expression.h"
 
 class BinaryOperation : public Expression {
 private:

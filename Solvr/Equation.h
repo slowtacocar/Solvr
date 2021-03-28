@@ -6,13 +6,10 @@
 #define SOLVR_EQUATION_H
 
 
-#include "Unsolvable.h"
-#include "Addition.h"
-#include "Multiplication.h"
-#include "Variable.h"
-
-#include <string>
 #include <vector>
+#include <string>
+#include "Expression.h"
+#include "Variable.h"
 
 class Equation {
 private:

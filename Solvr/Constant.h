@@ -6,9 +6,9 @@
 #define SOLVR_CONSTANT_H
 
 
+#include <string>
+#include <vector>
 #include "Expression.h"
-
-#include <sstream>
 
 class Constant : public Expression {
 private:
