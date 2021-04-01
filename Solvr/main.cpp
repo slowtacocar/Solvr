@@ -1,6 +1,8 @@
 #include <string>
 #include <iostream>
+#include <fstream>
 #include <vector>
+#include <sstream>
 #include "Expression.h"
 #include "Addition.h"
 #include "Multiplication.h"
@@ -123,7 +125,37 @@ Expression *parseExpression(std::string string, size_t start, size_t stop) {
     return ret;
 }
 
-int main() {
+std::string getInput(std::string input) {
+    std::ostringstream os;
+    try {
+        for (size_t i = 0; i < input.length(); i++) {
+            if (input[i] == '=') {
+                Expression *side1 = parseExpression(input, 0, i);
+                Expression *side2 = parseExpression(input, i + 1, input.length());
+                Equation equ(side1, side2);
+                if (verbose) os << equ.toString() << std::endl;
+                std::vector<Equation> results = equ.solve();
+                for (const auto &result : results) {
+                    os << result.toString() << std::endl;
+                }
+                goto end;
+            }
+        }
+        Expression *exp = parseExpression(input, 0, input.length());
+        if (verbose) os << exp->toString() << "=";
+        Expression *result = exp->simplify();
+        os << result->toString() << std::endl;
+        delete exp;
+        delete result;
+    }
+    catch (InvalidExpression &) {
+        os << input << " is not a valid input" << std::endl;
+    }
+    end:;
+    return os.str();
+}
+
+void runSolvr() {
     std::string input;
     bool running = true;
     std::cout << "Welcome to Solvr. Type exit to quit." << std::endl;
@@ -134,33 +166,81 @@ int main() {
         if (input == "exit") {
             running = false;
         } else {
-            try {
-                for (size_t i = 0; i < input.length(); i++) {
-                    if (input[i] == '=') {
-                        Expression *side1 = parseExpression(input, 0, i);
-                        Expression *side2 = parseExpression(input, i + 1, input.length());
-                        Equation equ(side1, side2);
-                        if (verbose) std::cout << equ.toString() << std::endl;
-                        std::vector<Equation> results = equ.solve();
-                        for (const auto &result : results) {
-                            std::cout << result.toString() << std::endl;
-                        }
-                        goto end;
-                    }
-                }
-                Expression *exp = parseExpression(input, 0, input.length());
-                if (verbose) std::cout << exp->toString() << "=";
-                Expression *result = exp->simplify();
-                std::cout << result->toString() << std::endl;
-                delete exp;
-                delete result;
-            }
-            catch (InvalidExpression &) {
-                std::cout << input << " is not a valid input" << std::endl;
-            }
-            end:;
-            std::cout << std::endl;
+            std::cout << getInput(input) << std::endl;
         }
     }
+}
+
+void test() {
+    std::string input;
+    std::string yn;
+    std::fstream tests;
+    tests.open ("../../tests.txt", std::fstream::in | std::fstream::app);
+    bool running = true;
+    std::string line;
+    while (getline(tests, line)) {
+        for (size_t i = 0; i < line.length(); i++) {
+            if (line[i] == '\t') {
+                std::string in = line.substr(0, i);
+                std::string res = getInput(in);
+                std::ostringstream rs;
+                std::string expected = line.substr(i + 1, line.length() - i - 1);
+                for (size_t j = 0; j < res.length(); j++) {
+                    if (res[j] == '\n') {
+                        rs << "\\n";
+                    } else if (j + 1 < res.length() && res[j] == '\r' && res[j + 1] == '\n') {
+                        rs << "\\n";
+                        j++;
+                    } else {
+                        rs << res[j];
+                    }
+                }
+                std::string rsstr = rs.str();
+                if (rsstr != expected) {
+                    std::cout << "Test failed: " << in << std::endl;
+                    std::cout << "Expected " << expected << " but got " << rsstr << std::endl;
+                    goto fail;
+                }
+                break;
+            }
+        }
+    }
+    tests.clear();
+    std::cout << "Welcome to Solvr. Type exit to quit." << std::endl;
+    std::cout << "Solvr is in test mode. Inputs will be saved to a test suite." << std::endl;
+    while (running) {
+        std::cout << ">>";
+        std::cin >> input;
+
+        if (input == "exit") {
+            running = false;
+        } else {
+            std::string out = getInput(input);
+            std::cout << out;
+            std::cout << "Is this correct? ";
+            std::cin >> yn;
+            std::cout << std::endl;
+            if (yn == "y") {
+                tests << input << "\t";
+                for (size_t i = 0; i < out.length(); i++) {
+                    if (out[i] == '\n') {
+                        tests << "\\n";
+                    } else if (i + 1 < out.length() && out[i] == '\r' && out[i + 1] == '\n') {
+                        tests << "\\n";
+                        i++;
+                    } else {
+                        tests << out[i];
+                    }
+                }
+                tests << std::endl;
+            }
+        }
+    }
+    fail:
+    tests.close();
+}
+
+int main() {
+    runSolvr();
     return 0;
 }
