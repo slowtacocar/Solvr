@@ -241,6 +241,6 @@ void test() {
 }
 
 int main() {
-    runSolvr();
+    test();
     return 0;
 }
