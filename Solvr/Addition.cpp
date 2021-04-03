@@ -8,7 +8,7 @@
 
 Expression *Addition::simplify() const {
     std::vector<Expression *> terms = getTerms();
-    std::vector<std::pair<double, Expression *>> variables;
+    std::vector<std::pair<double, const Expression *>> variables;
     double constant = 0;
     for (auto term : terms) {
         if (term->symbol() == '0') constant += ((Constant *) term)->getValue();

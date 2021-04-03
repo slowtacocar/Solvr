@@ -37,7 +37,7 @@ Expression *Multiplication::simplify() const {
         return ret;
     }
     std::vector<const Expression *> powers = getPowers();
-    std::vector<std::pair<double, Expression *>> variables;
+    std::vector<std::pair<double, const Expression *>> variables;
     double constant = 1;
     for (auto power : powers) {
         if (power->symbol() == '0') constant *= ((Constant *) power)->getValue();
