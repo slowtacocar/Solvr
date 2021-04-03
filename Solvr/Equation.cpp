@@ -10,7 +10,7 @@
 #include "Exponentiation.h"
 #include "Logarithm.h"
 
-Equation::Equation(Expression *side1, Expression *side2) {
+Equation::Equation(const Expression *side1, const Expression *side2) {
     this->side1 = side1;
     this->side2 = side2;
 }
@@ -25,14 +25,14 @@ std::vector<Equation> Equation::solve() const {
     return ret;
 }
 
-Equation Equation::solve(Variable variable) const {
+Equation Equation::solve(const Variable& variable) const {
     auto *subtract = new Multiplication(new Constant(-1), side2->copy());
-    Expression *left = Addition(side1->copy(), subtract).simplify();
-    Expression *right = new Constant(0);
+    const Expression *left = Addition(side1->copy(), subtract).simplify();
+    const Expression *right = new Constant(0);
     while (true) {
         if (left->symbol() == '+') {
-            Expression &op1 = ((Addition *) left)->getOperand1();
-            Expression &op2 = ((Addition *) left)->getOperand2();
+            const Expression &op1 = ((Addition *) left)->getOperand1();
+            const Expression &op2 = ((Addition *) left)->getOperand2();
             if (op1.contains(variable) && op2.contains(variable)) {
                 throw Unsolvable();
             } else if (op1.contains(variable)) {
@@ -43,8 +43,8 @@ Equation Equation::solve(Variable variable) const {
                 left = &op2;
             }
         } else if (left->symbol() == '*') {
-            Expression &op1 = ((Multiplication *) left)->getOperand1();
-            Expression &op2 = ((Multiplication *) left)->getOperand2();
+            const Expression &op1 = ((Multiplication *) left)->getOperand1();
+            const Expression &op2 = ((Multiplication *) left)->getOperand2();
             if (op1.contains(variable) && op2.contains(variable)) {
                 throw Unsolvable();
             } else if (op1.contains(variable)) {
@@ -55,8 +55,8 @@ Equation Equation::solve(Variable variable) const {
                 left = &op2;
             }
         } else if (left->symbol() == '^') {
-            Expression &op1 = ((Exponentiation *) left)->getOperand1();
-            Expression &op2 = ((Exponentiation *) left)->getOperand2();
+            const Expression &op1 = ((Exponentiation *) left)->getOperand1();
+            const Expression &op2 = ((Exponentiation *) left)->getOperand2();
             if (op1.contains(variable) && op2.contains(variable)) {
                 throw Unsolvable();
             } else if (op1.contains(variable)) {
@@ -90,9 +90,9 @@ Equation::Equation(const Equation &other) {
     side2 = other.side2->copy();
 }
 
-std::vector<Expression *> Equation::allVariables() const {
-    std::vector<Expression *> ret = side1->allVariables();
-    std::vector<Expression *> vs2 = side2->allVariables();
+std::vector<const Expression *> Equation::allVariables() const {
+    std::vector<const Expression *> ret = side1->allVariables();
+    std::vector<const Expression *> vs2 = side2->allVariables();
     for (auto var : vs2) {
         for (auto retVar : ret) {
             if (var->isEqual(*retVar)) goto found;

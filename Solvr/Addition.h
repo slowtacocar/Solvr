@@ -25,7 +25,7 @@ public:
 
     std::vector<Expression *> getTerms() const;
 
-    bool isEqual(Expression &expression) const override;
+    bool isEqual(const Expression &expression) const override;
 };
 
 

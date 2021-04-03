@@ -4,20 +4,20 @@
 
 #include "UnaryOperation.h"
 
-UnaryOperation::UnaryOperation(Expression *operand) {
+UnaryOperation::UnaryOperation(const Expression *operand) {
     this->operand = operand;
 }
 
-Expression &UnaryOperation::getOperand() const {
+const Expression &UnaryOperation::getOperand() const {
     return *operand;
 }
 
-Expression *UnaryOperation::getConstant() {
+const Expression *UnaryOperation::getConstant() const {
     if (operand->symbol() == '0') return operand;
     return nullptr;
 }
 
-Expression *UnaryOperation::getNonConstant() {
+const Expression *UnaryOperation::getNonConstant() const {
     if (operand->symbol() != '0') return operand;
     return nullptr;
 }
@@ -26,10 +26,10 @@ UnaryOperation::~UnaryOperation() {
     delete operand;
 }
 
-bool UnaryOperation::contains(Expression &expression) const {
+bool UnaryOperation::contains(const Expression &expression) const {
     return operand->contains(expression);
 }
 
-std::vector<Expression *> UnaryOperation::allVariables() {
+std::vector<const Expression *> UnaryOperation::allVariables() const {
     return operand->allVariables();
 }

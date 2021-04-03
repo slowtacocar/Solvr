@@ -22,7 +22,7 @@ public:
 
     Expression *copy() const override;
 
-    bool isEqual(Expression &expression) const override;
+    bool isEqual(const Expression &expression) const override;
 };
 
 

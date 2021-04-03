@@ -36,7 +36,7 @@ Expression *Multiplication::simplify() const {
         delete combined;
         return ret;
     }
-    std::vector<Expression *> powers = getPowers();
+    std::vector<const Expression *> powers = getPowers();
     std::vector<std::pair<double, Expression *>> variables;
     double constant = 1;
     for (auto power : powers) {
@@ -82,13 +82,14 @@ std::string Multiplication::toString() const {
     bool f = getOperand1().symbol() == '0' && ((Constant &) getOperand1()).getValue() == -1;
     if ((f && !l) || (!f && l)) os << "-";
     if (!f) {
-        if (getOperand1().symbol() == '+') os << "(" << getOperand1().toString() << ")";
-        else os << getOperand1().toString();
+        if (getOperand1().symbol() == '+' || getOperand1().symbol() == '^') {
+            os << "(" << getOperand1().toString() << ")";
+        } else os << getOperand1().toString();
     }
-    if (!f && !l) os << "*";
     if (!l) {
-        if (getOperand2().symbol() == '+') os << "(" << getOperand2().toString() << ")";
-        else os << getOperand2().toString();
+        if (getOperand2().symbol() == '+' || getOperand2().symbol() == '^' || getOperand2().symbol() == '0') {
+            os << "(" << getOperand2().toString() << ")";
+        } else os << getOperand2().toString();
     }
     return os.str();
 }
@@ -101,12 +102,12 @@ Expression *Multiplication::copy() const {
     return new Multiplication(getOperand1().copy(), getOperand2().copy());
 }
 
-std::vector<Expression *> Multiplication::getPowers() const {
-    std::vector<Expression *> ret;
+std::vector<const Expression *> Multiplication::getPowers() const {
+    std::vector<const Expression *> ret;
     Expression *simplified1 = getOperand1().simplify();
     Expression *simplified2 = getOperand2().simplify();
     if (simplified1->symbol() == '*') {
-        std::vector<Expression *> powers = ((Multiplication *) simplified1)->getPowers();
+        std::vector<const Expression *> powers = ((Multiplication *) simplified1)->getPowers();
         ret.insert(ret.end(), powers.begin(), powers.end());
     } else {
         char s = simplified1->symbol();
@@ -117,7 +118,7 @@ std::vector<Expression *> Multiplication::getPowers() const {
         }
     }
     if (simplified2->symbol() == '*') {
-        std::vector<Expression *> powers = ((Multiplication *) simplified2)->getPowers();
+        std::vector<const Expression *> powers = ((Multiplication *) simplified2)->getPowers();
         ret.insert(ret.end(), powers.begin(), powers.end());
     } else {
         char s = simplified2->symbol();
@@ -132,10 +133,10 @@ std::vector<Expression *> Multiplication::getPowers() const {
     return ret;
 }
 
-bool Multiplication::isEqual(Expression &expression) const {
+bool Multiplication::isEqual(const Expression &expression) const {
     if (expression.symbol() == '*') {
-        Expression &op1 = ((Multiplication &) expression).getOperand1();
-        Expression &op2 = ((Multiplication &) expression).getOperand2();
+        const Expression &op1 = ((Multiplication &) expression).getOperand1();
+        const Expression &op2 = ((Multiplication &) expression).getOperand2();
         if (op1.isEqual(getOperand1()) && op2.isEqual(getOperand2())) {
             return true;
         }

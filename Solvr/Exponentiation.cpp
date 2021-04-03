@@ -53,10 +53,10 @@ Expression *Exponentiation::copy() const {
     return new Exponentiation(getOperand1().copy(), getOperand2().copy());
 }
 
-bool Exponentiation::isEqual(Expression &expression) const {
+bool Exponentiation::isEqual(const Expression &expression) const {
     if (expression.symbol() == '^') {
-        Expression &op1 = ((Exponentiation &) expression).getOperand1();
-        Expression &op2 = ((Exponentiation &) expression).getOperand2();
+        const Expression &op1 = ((Exponentiation &) expression).getOperand1();
+        const Expression &op2 = ((Exponentiation &) expression).getOperand2();
         return op1.isEqual(getOperand1()) && op2.isEqual(getOperand2());
     }
     return false;

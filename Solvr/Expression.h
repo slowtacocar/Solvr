@@ -17,19 +17,19 @@ public:
 
     virtual char symbol() const = 0;
 
-    virtual Expression *getConstant() = 0;
+    virtual const Expression *getConstant() const = 0;
 
-    virtual Expression *getNonConstant() = 0;
+    virtual const Expression *getNonConstant() const = 0;
 
     virtual ~Expression() = default;
 
     virtual Expression *copy() const = 0;
 
-    virtual bool isEqual(Expression &expression) const = 0;
+    virtual bool isEqual(const Expression &expression) const = 0;
 
-    virtual std::vector<Expression *> allVariables() = 0;
+    virtual std::vector<const Expression *> allVariables() const = 0;
 
-    virtual bool contains(Expression &expression) const = 0;
+    virtual bool contains(const Expression &expression) const = 0;
 };
 
 

@@ -20,11 +20,11 @@ char Variable::symbol() const {
     return 'a';
 }
 
-Expression *Variable::getConstant() {
+const Expression *Variable::getConstant() const {
     return nullptr;
 }
 
-Expression *Variable::getNonConstant() {
+const Expression *Variable::getNonConstant() const {
     return this;
 }
 
@@ -32,14 +32,14 @@ Expression *Variable::copy() const {
     return new Variable(this->getLetter());
 }
 
-bool Variable::isEqual(Expression &expression) const {
+bool Variable::isEqual(const Expression &expression) const {
     return expression.symbol() == 'a' && ((Variable &) expression).getLetter() == getLetter();
 }
 
-std::vector<Expression *> Variable::allVariables() {
-    return std::vector<Expression *>(1, this);
+std::vector<const Expression *> Variable::allVariables() const {
+    return std::vector<const Expression *>(1, this);
 }
 
-bool Variable::contains(Expression &expression) const {
+bool Variable::contains(const Expression &expression) const {
     return isEqual(expression);
 }

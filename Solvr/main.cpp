@@ -13,8 +13,6 @@
 #include "Variable.h"
 #include "Equation.h"
 
-bool verbose = false;
-
 Expression *parseExpression(std::string string, size_t start, size_t stop) {
     int parens = 0;
     size_t lastAdd = 0;
@@ -32,10 +30,6 @@ Expression *parseExpression(std::string string, size_t start, size_t stop) {
         }
     }
     if (lastAdd > 0) {
-        if (verbose) {
-            std::cout << "Evaluating addition at position " << lastAdd << ": ";
-            std::cout << string.substr(start, stop - start) << std::endl;
-        }
         // Addition and subtraction take precedence
         Expression *left = parseExpression(string, start, lastAdd);
         Expression *right = parseExpression(string, lastAdd + 1, stop);
@@ -43,10 +37,6 @@ Expression *parseExpression(std::string string, size_t start, size_t stop) {
         return new Addition(left, new Multiplication(new Constant(-1), right));
     }
     if (lastMult > 0) {
-        if (verbose) {
-            std::cout << "Evaluating multiplication at position " << lastMult << ": ";
-            std::cout << string.substr(start, stop - start) << std::endl;
-        }
         // Multiplication and division are next
         Expression *left = parseExpression(string, start, lastMult);
         Expression *right = parseExpression(string, lastMult + 1, stop);
@@ -54,10 +44,6 @@ Expression *parseExpression(std::string string, size_t start, size_t stop) {
         return new Multiplication(left, new Exponentiation(right, new Constant(-1)));
     }
     if (lastExp > 0) {
-        if (verbose) {
-            std::cout << "Evaluating exponentiation at position " << lastExp << ": ";
-            std::cout << string.substr(start, stop - start) << std::endl;
-        }
         // Exponentiation is the last
         Expression *left = parseExpression(string, start, lastExp);
         Expression *right = parseExpression(string, lastExp + 1, stop);
@@ -133,7 +119,6 @@ std::string getInput(std::string input) {
                 Expression *side1 = parseExpression(input, 0, i);
                 Expression *side2 = parseExpression(input, i + 1, input.length());
                 Equation equ(side1, side2);
-                if (verbose) os << equ.toString() << std::endl;
                 std::vector<Equation> results = equ.solve();
                 for (const auto &result : results) {
                     os << result.toString() << std::endl;
@@ -142,7 +127,6 @@ std::string getInput(std::string input) {
             }
         }
         Expression *exp = parseExpression(input, 0, input.length());
-        if (verbose) os << exp->toString() << "=";
         Expression *result = exp->simplify();
         os << result->toString() << std::endl;
         delete exp;

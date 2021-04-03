@@ -25,17 +25,17 @@ public:
 
     char symbol() const override;
 
-    Expression *getConstant() override;
+    const Expression *getConstant() const override;
 
-    Expression *getNonConstant() override;
+    const Expression *getNonConstant() const override;
 
     Expression *copy() const override;
 
-    bool isEqual(Expression &expression) const override;
+    bool isEqual(const Expression &expression) const override;
 
-    std::vector<Expression *> allVariables() override;
+    std::vector<const Expression *> allVariables() const override;
 
-    bool contains(Expression &expression) const override;
+    bool contains(const Expression &expression) const override;
 };
 
 

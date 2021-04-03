@@ -88,10 +88,10 @@ std::vector<Expression *> Addition::getTerms() const {
     return ret;
 }
 
-bool Addition::isEqual(Expression &expression) const {
+bool Addition::isEqual(const Expression &expression) const {
     if (expression.symbol() == '+') {
-        Expression &op1 = ((Addition &) expression).getOperand1();
-        Expression &op2 = ((Addition &) expression).getOperand2();
+        const Expression &op1 = ((Addition &) expression).getOperand1();
+        const Expression &op2 = ((Addition &) expression).getOperand2();
         if (op1.isEqual(getOperand1()) && op2.isEqual(getOperand2())) {
             return true;
         }

@@ -13,21 +13,21 @@
 
 class Equation {
 private:
-    Expression *side1;
-    Expression *side2;
+    const Expression *side1;
+    const Expression *side2;
 
 public:
-    Equation(Expression *side1, Expression *side2);
+    Equation(const Expression *side1, const Expression *side2);
 
     Equation(const Equation &other);
 
     std::vector<Equation> solve() const;
 
-    Equation solve(Variable variable) const;
+    Equation solve(const Variable& variable) const;
 
     std::string toString() const;
 
-    std::vector<Expression *> allVariables() const;
+    std::vector<const Expression *> allVariables() const;
 
     ~Equation();
 };

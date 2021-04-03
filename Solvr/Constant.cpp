@@ -27,11 +27,11 @@ char Constant::symbol() const {
     return '0';
 }
 
-Expression *Constant::getConstant() {
+const Expression *Constant::getConstant() const {
     return this;
 }
 
-Expression *Constant::getNonConstant() {
+const Expression *Constant::getNonConstant() const {
     return nullptr;
 }
 
@@ -39,14 +39,14 @@ Expression *Constant::copy() const {
     return new Constant(getValue());
 }
 
-bool Constant::isEqual(Expression &expression) const {
+bool Constant::isEqual(const Expression &expression) const {
     return expression.symbol() == '0' && ((Constant &) expression).getValue() == getValue();
 }
 
-bool Constant::contains(Expression &expression) const {
+bool Constant::contains(const Expression &expression) const {
     return isEqual(expression);
 }
 
-std::vector<Expression *> Constant::allVariables() {
-    return std::vector<Expression *>();
+std::vector<const Expression *> Constant::allVariables() const {
+    return std::vector<const Expression *>();
 }

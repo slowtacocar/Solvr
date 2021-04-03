@@ -23,9 +23,9 @@ public:
 
     Expression *copy() const override;
 
-    std::vector<Expression *> getPowers() const;
+    std::vector<const Expression *> getPowers() const;
 
-    bool isEqual(Expression &expression) const override;
+    bool isEqual(const Expression &expression) const override;
 };
 
 

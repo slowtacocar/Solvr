@@ -11,22 +11,22 @@
 
 class UnaryOperation : public Expression {
 private:
-    Expression *operand;
+    const Expression *operand;
 
 public:
-    explicit UnaryOperation(Expression *operand);
+    explicit UnaryOperation(const Expression *operand);
 
     ~UnaryOperation() override;
 
-    Expression &getOperand() const;
+    const Expression &getOperand() const;
 
-    Expression *getConstant() override;
+    const Expression *getConstant() const override;
 
-    Expression *getNonConstant() override;
+    const Expression *getNonConstant() const override;
 
-    std::vector<Expression *> allVariables() override;
+    std::vector<const Expression *> allVariables() const override;
 
-    bool contains(Expression &expression) const override;
+    bool contains(const Expression &expression) const override;
 };
 
 

@@ -30,9 +30,9 @@ Expression *Logarithm::copy() const {
     return new Logarithm(getOperand().copy());
 }
 
-bool Logarithm::isEqual(Expression &expression) const {
+bool Logarithm::isEqual(const Expression &expression) const {
     if (expression.symbol() == 'l') {
-        Expression &op = ((Logarithm &) expression).getOperand();
+        const Expression &op = ((Logarithm &) expression).getOperand();
         return op.isEqual(getOperand());
     }
 }

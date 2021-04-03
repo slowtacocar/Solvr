@@ -11,25 +11,25 @@
 
 class BinaryOperation : public Expression {
 private:
-    Expression *operand1;
-    Expression *operand2;
+    const Expression *operand1;
+    const Expression *operand2;
 
 public:
-    BinaryOperation(Expression *operand1, Expression *operand2);
+    BinaryOperation(const Expression *operand1, const Expression *operand2);
 
     ~BinaryOperation() override;
 
-    Expression &getOperand1() const;
+    const Expression &getOperand1() const;
 
-    Expression &getOperand2() const;
+    const Expression &getOperand2() const;
 
-    Expression *getConstant() override;
+    const Expression *getConstant() const override;
 
-    Expression *getNonConstant() override;
+    const Expression *getNonConstant() const override;
 
-    std::vector<Expression *> allVariables() override;
+    std::vector<const Expression *> allVariables() const override;
 
-    bool contains(Expression &expression) const override;
+    bool contains(const Expression &expression) const override;
 };
 
 
