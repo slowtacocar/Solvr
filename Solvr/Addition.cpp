@@ -101,3 +101,11 @@ bool Addition::isEqual(const Expression &expression) const {
     }
     return false;
 }
+
+const Expression *Addition::findCoefficient(const Expression *variable) const {
+    const Expression *coefficient1 = getOperand1().findCoefficient(variable);
+    const Expression *coefficient2 = getOperand2().findCoefficient(variable);
+    if (coefficient1 == nullptr) return coefficient2;
+    if (coefficient2 == nullptr) return coefficient1;
+    return Addition(coefficient1, coefficient2).simplify();
+}

@@ -12,6 +12,8 @@
 #include "Logarithm.h"
 #include "Variable.h"
 #include "Equation.h"
+#include "System.h"
+#include "Unsolvable.h"
 
 Expression *parseExpression(std::string string, size_t start, size_t stop) {
     int parens = 0;
@@ -114,28 +116,50 @@ Expression *parseExpression(std::string string, size_t start, size_t stop) {
 std::string getInput(std::string input) {
     std::ostringstream os;
     try {
+        size_t start = 0;
+        Expression *side1 = nullptr;
+        std::vector<Equation> equations;
         for (size_t i = 0; i < input.length(); i++) {
             if (input[i] == '=') {
-                Expression *side1 = parseExpression(input, 0, i);
-                Expression *side2 = parseExpression(input, i + 1, input.length());
-                Equation equ(side1, side2);
+                side1 = parseExpression(input, start, i);
+                start = i + 1;
+            } else if (input[i] == ',') {
+                Expression *side2 = parseExpression(input, start, i);
+                equations.emplace_back(side1, side2);
+                start = i + 1;
+            }
+        }
+        Expression *side2 = parseExpression(input, start, input.length());
+        if (side1 == nullptr) {
+            Expression *result = side2->simplify();
+            os << result->toString() << std::endl;
+            delete side2;
+            delete result;
+        } else {
+            Equation equ(side1, side2);
+            if (equations.empty()) {
                 std::vector<Equation> results = equ.solve();
                 for (const auto &result : results) {
                     os << result.toString() << std::endl;
                 }
-                goto end;
+            } else {
+                equations.push_back(equ);
+                System system(equations);
+                try {
+                    std::vector<Equation> results = system.solve();
+                    for (const auto &result : results) {
+                        os << result.toString() << std::endl;
+                    }
+                } catch (Unsolvable &) {
+                    os << "No solutions" << std::endl;
+                }
             }
         }
-        Expression *exp = parseExpression(input, 0, input.length());
-        Expression *result = exp->simplify();
-        os << result->toString() << std::endl;
-        delete exp;
-        delete result;
+
     }
     catch (InvalidExpression &) {
         os << input << " is not a valid input" << std::endl;
     }
-    end:;
     return os.str();
 }
 

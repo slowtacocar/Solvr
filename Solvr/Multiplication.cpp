@@ -146,3 +146,9 @@ bool Multiplication::isEqual(const Expression &expression) const {
     }
     return false;
 }
+
+const Expression *Multiplication::findCoefficient(const Expression *variable) const {
+    if (variable == nullptr) return nullptr;
+    if (this->getNonConstant()->isEqual(*variable)) return this->getConstant()->copy();
+    return nullptr;
+}

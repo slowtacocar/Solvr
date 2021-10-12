@@ -30,6 +30,8 @@ public:
     virtual std::vector<const Expression *> allVariables() const = 0;
 
     virtual bool contains(const Expression &expression) const = 0;
+
+    virtual const Expression *findCoefficient(const Expression *variable) const;
 };
 
 

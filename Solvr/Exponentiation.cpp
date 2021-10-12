@@ -7,6 +7,7 @@
 #include "Constant.h"
 #include "Logarithm.h"
 #include "Multiplication.h"
+#include <cmath>
 
 Expression *Exponentiation::simplify() const {
     Expression *simplified1 = getOperand1().simplify();

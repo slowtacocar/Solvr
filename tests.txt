@@ -11,3 +11,23 @@ x=2x+4	x=-4\n
 x^3=8	x=2\n
 xy(xy)	(x^2)(y^2)\n
 2+x	x+2\n
+2+2	4\n
+2x+4x	6x\n
+2^x	2^x\n
+x^y^y	x^y^y\n
+y*y	y^2\n
+x^2=4	x=2\n
+2+2	4\n
+2x+6x	8x\n
+2x=4	x=2\n
+e^x	e^x\n
+x^2+4=8	x=2\n
+2+2	4\n
+2x=3	x=1.5\n
+2x+2y=10,2x+y=8	x=3\ny=2\n
+2x+6x	8x\n
+x+z=5,y+z=5	x=y\nz=5-y\n
+2x=y,x=y	x=0\ny=0\n
+2x=y,x=y+2	x=-2\ny=-4\n
+x=y,x=y+2	No solutions\n
+0=2,0=4	No solutions\n

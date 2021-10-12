@@ -36,6 +36,8 @@ public:
     std::vector<const Expression *> allVariables() const override;
 
     bool contains(const Expression &expression) const override;
+
+    const Expression * findCoefficient(const Expression *variable) const override;
 };
 
 

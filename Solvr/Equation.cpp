@@ -102,3 +102,20 @@ std::vector<const Expression *> Equation::allVariables() const {
     }
     return ret;
 }
+
+const Expression *Equation::findCoefficient(const Expression *variable) const {
+    const Expression *coefficient1 = side1->findCoefficient(variable);
+    const Expression *coefficient2 = side2->findCoefficient(variable);
+    if (coefficient1 == nullptr) {
+        if (coefficient2 == nullptr) return nullptr;
+        double val = ((Constant *) coefficient2)->getValue() * -1;
+        delete coefficient2;
+        return new Constant(val);
+    }
+    if (coefficient2 == nullptr) return coefficient1;
+    return Addition(coefficient1, coefficient2).simplify();
+}
+
+Equation Equation::simplify() const {
+    return Equation(side1->simplify(), side2->simplify());
+}

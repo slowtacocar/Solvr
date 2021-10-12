@@ -5,6 +5,7 @@
 #include "Logarithm.h"
 #include "Constant.h"
 #include "Variable.h"
+#include <cmath>
 
 Expression *Logarithm::simplify() const {
     Expression *simplified = getOperand().simplify();

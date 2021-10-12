@@ -29,6 +29,10 @@ public:
 
     std::vector<const Expression *> allVariables() const;
 
+    const Expression *findCoefficient(const Expression *variable) const;
+
+    Equation simplify() const;
+
     ~Equation();
 };
 

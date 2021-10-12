@@ -7,3 +7,7 @@
 Expression *Expression::simplify() const {
     return copy();
 }
+
+const Expression *Expression::findCoefficient(const Expression *variable) const {
+    return nullptr;
+}

@@ -26,6 +26,8 @@ public:
     std::vector<const Expression *> getPowers() const;
 
     bool isEqual(const Expression &expression) const override;
+
+    const Expression *findCoefficient(const Expression *variable) const override;
 };
 
 

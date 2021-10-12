@@ -50,3 +50,8 @@ bool Constant::contains(const Expression &expression) const {
 std::vector<const Expression *> Constant::allVariables() const {
     return std::vector<const Expression *>();
 }
+
+const Expression *Constant::findCoefficient(const Expression *variable) const {
+    if (variable == nullptr) return this->copy();
+    return nullptr;
+}

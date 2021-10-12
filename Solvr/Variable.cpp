@@ -3,6 +3,7 @@
 //
 
 #include "Variable.h"
+#include "Constant.h"
 
 Variable::Variable(char letter) {
     this->letter = letter;
@@ -42,4 +43,10 @@ std::vector<const Expression *> Variable::allVariables() const {
 
 bool Variable::contains(const Expression &expression) const {
     return isEqual(expression);
+}
+
+const Expression *Variable::findCoefficient(const Expression *variable) const {
+    if (variable == nullptr) return nullptr;
+    if (isEqual(*variable)) return new Constant(1);
+    return nullptr;
 }
